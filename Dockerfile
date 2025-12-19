@@ -19,7 +19,8 @@ WORKDIR /usr/src/icecast-kh
 COPY . .
 
 # Compilar e instalar
-RUN ./configure --with-openssl && \
+RUN chmod +x ./configure && \
+    ./configure --with-openssl && \
     make && \
     make install
 

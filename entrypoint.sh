@@ -26,6 +26,11 @@ ls -R /usr/local/share/icecast/web | head -n 10
 
 echo "Configurando icecast.xml..."
 envsubst < /etc/icecast-kh/icecast.xml.template > /etc/icecast-kh/icecast.xml
+dos2unix /etc/icecast-kh/icecast.xml
+
+echo "--- Conteúdo do XML Gerado ---"
+cat /etc/icecast-kh/icecast.xml
+echo "------------------------------"
 
 # Garantir permissões
 mkdir -p /var/log/icecast-kh
@@ -36,8 +41,7 @@ ln -sf /dev/stdout /var/log/icecast-kh/access.log
 ln -sf /dev/stderr /var/log/icecast-kh/error.log
 
 echo "Testando validade do XML..."
-runuser -u icecast -- icecast -c /etc/icecast-kh/icecast.xml -t || echo "Erro na validação do XML!"
+/usr/local/bin/icecast -c /etc/icecast-kh/icecast.xml -t || echo "Erro na validação do XML!"
 
 echo "Iniciando Icecast via runuser..."
-# Usamos -n para não daemonizar (se disponível no KH) e garantimos o comando correto
 exec runuser -u icecast -- /usr/local/bin/icecast -c /etc/icecast-kh/icecast.xml

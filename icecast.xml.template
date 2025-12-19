@@ -34,7 +34,6 @@
     <fileserve>1</fileserve>
 
     <paths>
-        <basedir>/usr/local/share/icecast</basedir>
         <logdir>/var/log/icecast-kh</logdir>
         <webroot>/usr/local/share/icecast/web</webroot>
         <adminroot>/usr/local/share/icecast/admin</adminroot>

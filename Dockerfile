@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instalar dependências (Ubuntu 20.04 para compatibilidade total)
+# Instalar dependências (Ubuntu 20.04 + ferramentas de limpeza)
 RUN apt-get update && apt-get install -y \
     build-essential \
     pkg-config \
@@ -10,9 +10,11 @@ RUN apt-get update && apt-get install -y \
     libvorbis-dev \
     libxml2-dev \
     libssl-dev \
+    libcurl4-openssl-dev \
     curl \
     gettext-base \
     util-linux \
+    dos2unix \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/icecast-kh
@@ -20,9 +22,11 @@ WORKDIR /usr/src/icecast-kh
 # Copiar código fonte
 COPY . .
 
-# Compilar e instalar
-RUN chmod +x ./configure ./GIT-VERSION-GEN ./autogen.sh && \
+# Limpar, converter scripts e compilar
+RUN dos2unix configure GIT-VERSION-GEN autogen.sh && \
+    chmod +x ./configure ./GIT-VERSION-GEN ./autogen.sh && \
     ./configure --with-openssl && \
+    make clean && \
     make && \
     make install
 
@@ -34,7 +38,8 @@ RUN mkdir -p /etc/icecast-kh /var/log/icecast-kh && \
 # Copiar template e script de entrada
 COPY icecast.xml.template /etc/icecast-kh/icecast.xml.template
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN dos2unix /entrypoint.sh /etc/icecast-kh/icecast.xml.template && \
+    chmod +x /entrypoint.sh
 
 # Ajustar permissões
 RUN chown -R icecast:icecast /var/log/icecast-kh /etc/icecast-kh /usr/local/share/icecast /entrypoint.sh

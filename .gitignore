@@ -10,7 +10,6 @@
 /conf/icecast_minimal.xml.dist
 /conf/icecast_shoutcast_compat.xml.dist
 /config.h
-/config.h.in
 /config.log
 /config.status
 /git_hash.h

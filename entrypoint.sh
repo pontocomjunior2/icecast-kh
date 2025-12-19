@@ -17,9 +17,11 @@ export ICECAST_SOURCE_PORT=${ICECAST_SOURCE_PORT:-9000}
 echo "Configurando icecast.xml com variáveis de ambiente..."
 envsubst < /etc/icecast-kh/icecast.xml.template > /etc/icecast-kh/icecast.xml
 
-# Garantir que o icecast tenha permissão nos arquivos e logs
-chown -R icecast:icecast /etc/icecast-kh /var/log/icecast-kh
+# Garantir que o diretório de logs existe e tem permissão
+mkdir -p /var/log/icecast-kh
+touch /var/log/icecast-kh/access.log /var/log/icecast-kh/error.log
+chown -R icecast:icecast /var/log/icecast-kh /etc/icecast-kh
 
-# Executar o comando final como o usuário 'icecast'
+# Executar o Icecast (ele iniciará como root e mudará para o usuário 'icecast' conforme o xml)
 echo "Iniciando Icecast..."
-exec su icecast -s /bin/sh -c "$*"
+exec "$@"

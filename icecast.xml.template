@@ -3,8 +3,8 @@
     <admin>${ICECAST_ADMIN_EMAIL}</admin>
 
     <limits>
-        <clients>1000</clients>
-        <sources>100</sources>
+        <clients>${ICECAST_CLIENTS}</clients>
+        <sources>${ICECAST_SOURCES}</sources>
         <queue-size>524288</queue-size>
         <client-timeout>30</client-timeout>
         <header-timeout>15</header-timeout>
@@ -21,14 +21,14 @@
 
     <hostname>${ICECAST_HOSTNAME}</hostname>
 
-    <!-- Porta 8080 para a Interface Web (Mapeada para 80 externa) -->
+    <!-- Porta para a Interface Web -->
     <listen-socket>
-        <port>8080</port>
+        <port>${ICECAST_WEB_PORT}</port>
     </listen-socket>
 
-    <!-- Porta 9000 para os Encoders Externos (Mapeada para 9000 externa) -->
+    <!-- Porta para os Encoders Externos -->
     <listen-socket>
-        <port>9000</port>
+        <port>${ICECAST_SOURCE_PORT}</port>
     </listen-socket>
 
     <fileserve>1</fileserve>

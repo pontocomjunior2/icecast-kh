@@ -35,7 +35,7 @@ RUN chmod +x /entrypoint.sh
 # Ajustar permissões
 RUN chown -R icecast:icecast /var/log/icecast-kh /etc/icecast-kh /entrypoint.sh
 
-# Expor portas (8080 para web, 9000 para encoders)
+# Expor portas padrão (Pode ser alterado via variáveis de ambiente)
 EXPOSE 8080 9000
 
 # O entrypoint rodará como root para poder gerar o arquivo icecast.xml no /etc

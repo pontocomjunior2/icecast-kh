@@ -9,6 +9,10 @@ export ICECAST_ADMIN_PASSWORD=${ICECAST_ADMIN_PASSWORD:-hackme}
 export ICECAST_HOSTNAME=${ICECAST_HOSTNAME:-localhost}
 export ICECAST_LOCATION=${ICECAST_LOCATION:-Brazil}
 export ICECAST_ADMIN_EMAIL=${ICECAST_ADMIN_EMAIL:-admin@localhost}
+export ICECAST_CLIENTS=${ICECAST_CLIENTS:-1000}
+export ICECAST_SOURCES=${ICECAST_SOURCES:-100}
+export ICECAST_WEB_PORT=${ICECAST_WEB_PORT:-8080}
+export ICECAST_SOURCE_PORT=${ICECAST_SOURCE_PORT:-9000}
 
 echo "Configurando icecast.xml com variáveis de ambiente..."
 envsubst < /etc/icecast-kh/icecast.xml.template > /etc/icecast-kh/icecast.xml

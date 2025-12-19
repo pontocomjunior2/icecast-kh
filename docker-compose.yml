@@ -7,6 +7,14 @@ services:
     ports:
       - "80:8080"
       - "9000:9000"
+    environment:
+      - ICECAST_SOURCE_PASSWORD=hackme
+      - ICECAST_RELAY_PASSWORD=hackme
+      - ICECAST_ADMIN_USER=admin
+      - ICECAST_ADMIN_PASSWORD=hackme
+      - ICECAST_HOSTNAME=localhost
+      - ICECAST_LOCATION=Brazil
+      - ICECAST_ADMIN_EMAIL=webmaster@localhost
     volumes:
       - ./logs:/var/log/icecast-kh
     restart: always

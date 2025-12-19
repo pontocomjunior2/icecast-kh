@@ -1,11 +1,12 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instalar dependências
+# Instalar dependências (Ubuntu 20.04 para compatibilidade total)
 RUN apt-get update && apt-get install -y \
     build-essential \
-    libxslt-dev \
+    pkg-config \
+    libxslt1-dev \
     libvorbis-dev \
     libxml2-dev \
     libssl-dev \
@@ -36,13 +37,11 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Ajustar permissões
-RUN chown -R icecast:icecast /var/log/icecast-kh /etc/icecast-kh /entrypoint.sh
+RUN chown -R icecast:icecast /var/log/icecast-kh /etc/icecast-kh /usr/local/share/icecast /entrypoint.sh
 
-# Expor portas padrão (Pode ser alterado via variáveis de ambiente)
+# Expor portas padrão
 EXPOSE 8080 9000
 
-# O entrypoint rodará como root para poder gerar o arquivo icecast.xml no /etc
-# mas o comando final do Icecast será executado via 'exec'
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/usr/local/bin/icecast", "-c", "/etc/icecast-kh/icecast.xml"]

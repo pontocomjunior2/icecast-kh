@@ -17,8 +17,9 @@ export ICECAST_SOURCE_PORT=${ICECAST_SOURCE_PORT:-9000}
 echo "Configurando icecast.xml com variáveis de ambiente..."
 envsubst < /etc/icecast-kh/icecast.xml.template > /etc/icecast-kh/icecast.xml
 
-# Garantir que o icecast tenha permissão de leitura no arquivo gerado
-# Já que o entrypoint roda como root inicialmente ou o usuário do Dockerfile
-# Mas vamos garantir que o comando final rode com o comando correto
+# Garantir que o icecast tenha permissão nos arquivos e logs
+chown -R icecast:icecast /etc/icecast-kh /var/log/icecast-kh
 
-exec "$@"
+# Executar o comando final como o usuário 'icecast'
+echo "Iniciando Icecast..."
+exec su icecast -s /bin/sh -c "$*"

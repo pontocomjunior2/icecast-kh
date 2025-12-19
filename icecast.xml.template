@@ -44,7 +44,7 @@
     <logging>
         <accesslog>access.log</accesslog>
         <errorlog>error.log</errorlog>
-        <loglevel>3</loglevel>
+        <loglevel>${ICECAST_LOG_LEVEL}</loglevel>
         <logsize>10000</logsize>
     </logging>
 

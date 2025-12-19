@@ -19,7 +19,7 @@ WORKDIR /usr/src/icecast-kh
 COPY . .
 
 # Compilar e instalar
-RUN chmod +x ./configure && \
+RUN chmod +x ./configure ./GIT-VERSION-GEN ./autogen.sh && \
     ./configure --with-openssl && \
     make && \
     make install

@@ -4,8 +4,6 @@ services:
   icecast:
     build: .
     container_name: icecast-kh
-    ports:
-      - "9000:9000"
     environment:
       - ICECAST_SOURCE_PASSWORD=hackme
       - ICECAST_RELAY_PASSWORD=hackme

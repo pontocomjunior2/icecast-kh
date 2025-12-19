@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     curl \
     gettext-base \
+    util-linux \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/icecast-kh
@@ -26,7 +27,8 @@ RUN chmod +x ./configure ./GIT-VERSION-GEN ./autogen.sh && \
 
 # Criar diretórios necessários
 RUN mkdir -p /etc/icecast-kh /var/log/icecast-kh && \
-    useradd -r -s /bin/false icecast
+    groupadd -r icecast && \
+    useradd -r -g icecast -s /bin/false icecast
 
 # Copiar template e script de entrada
 COPY icecast.xml.template /etc/icecast-kh/icecast.xml.template

@@ -13,25 +13,31 @@ export ICECAST_CLIENTS=${ICECAST_CLIENTS:-1000}
 export ICECAST_SOURCES=${ICECAST_SOURCES:-100}
 export ICECAST_WEB_PORT=${ICECAST_WEB_PORT:-8080}
 export ICECAST_SOURCE_PORT=${ICECAST_SOURCE_PORT:-9000}
+# Definir padrões se não definidos
 export ICECAST_LOG_LEVEL=${ICECAST_LOG_LEVEL:-3}
 
-echo "--- Verificando Ambiente ---"
-echo "Usuário: $(whoami)"
-ls -ld /usr/local/share/icecast/web 2>/dev/null || echo "AVISO: webroot não encontrado em /usr/local/share/icecast/web"
-which icecast || echo "AVISO: binário 'icecast' não encontrado no PATH"
-[ -f /usr/local/bin/icecast ] || echo "AVISO: binário não encontrado em /usr/local/bin/icecast"
+echo "--- Diagnóstico de Inicialização ---"
+echo "Usuário atual: $(whoami)"
+echo "Localização do binário: $(which icecast)"
+ldd $(which icecast)
 
-echo "Configurando icecast.xml com variáveis de ambiente..."
+echo "Verificando arquivos web..."
+ls -R /usr/local/share/icecast/web | head -n 10
+
+echo "Configurando icecast.xml..."
 envsubst < /etc/icecast-kh/icecast.xml.template > /etc/icecast-kh/icecast.xml
 
-# Garantir que o diretório de logs existe e tem permissão
+# Garantir permissões
 mkdir -p /var/log/icecast-kh
-chown -R icecast:icecast /var/log/icecast-kh /etc/icecast-kh
+chown -R icecast:icecast /var/log/icecast-kh /etc/icecast-kh /usr/local/share/icecast
 
-# Redirecionar logs para o console do Docker
+# Tentar linkar logs para o console
 ln -sf /dev/stdout /var/log/icecast-kh/access.log
 ln -sf /dev/stderr /var/log/icecast-kh/error.log
 
-# Executar o Icecast (ele iniciará como root e mudará para o usuário 'icecast' conforme o xml)
-echo "Iniciando Icecast: $*"
-exec "$@"
+echo "Testando validade do XML..."
+runuser -u icecast -- icecast -c /etc/icecast-kh/icecast.xml -t || echo "Erro na validação do XML!"
+
+echo "Iniciando Icecast via runuser..."
+# Usamos -n para não daemonizar (se disponível no KH) e garantimos o comando correto
+exec runuser -u icecast -- /usr/local/bin/icecast -c /etc/icecast-kh/icecast.xml

@@ -24,10 +24,10 @@ WORKDIR /usr/src/icecast-kh
 COPY . .
 
 # Limpar, converter scripts e compilar
-# Usamos -fcommon para evitar problemas com GCC recente e desabilitamos SSL para teste de estabilidade
+# Usamos -fcommon para evitar problemas com GCC recente (correção do SegFault)
 RUN dos2unix configure GIT-VERSION-GEN autogen.sh && \
     chmod +x ./configure ./GIT-VERSION-GEN ./autogen.sh && \
-    ./configure --without-openssl CFLAGS="-fcommon" && \
+    ./configure --with-openssl CFLAGS="-fcommon" && \
     make clean && \
     make && \
     make install

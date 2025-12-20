@@ -1,8 +1,8 @@
-FROM ubuntu:20.04
+FROM debian:buster-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instalar dependências (Ubuntu 20.04 + ferramentas de limpeza)
+# Instalar dependências (Debian Buster - Estável para Legacy)
 RUN apt-get update && apt-get install -y \
     build-essential \
     pkg-config \

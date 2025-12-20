@@ -40,8 +40,5 @@ chown -R icecast:icecast /var/log/icecast-kh /etc/icecast-kh /usr/local/share/ic
 ln -sf /dev/stdout /var/log/icecast-kh/access.log
 ln -sf /dev/stderr /var/log/icecast-kh/error.log
 
-echo "Testando validade do XML..."
-/usr/local/bin/icecast -c /etc/icecast-kh/icecast.xml -t || echo "Erro na validação do XML!"
-
 echo "Iniciando Icecast via runuser..."
 exec runuser -u icecast -- /usr/local/bin/icecast -c /etc/icecast-kh/icecast.xml

@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     gettext-base \
     util-linux \
     dos2unix \
+    mime-support \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/icecast-kh
@@ -23,9 +24,10 @@ WORKDIR /usr/src/icecast-kh
 COPY . .
 
 # Limpar, converter scripts e compilar
+# Usamos -fcommon para evitar problemas com GCC recente e desabilitamos SSL para teste de estabilidade
 RUN dos2unix configure GIT-VERSION-GEN autogen.sh && \
     chmod +x ./configure ./GIT-VERSION-GEN ./autogen.sh && \
-    ./configure --with-openssl && \
+    ./configure --without-openssl CFLAGS="-fcommon" && \
     make clean && \
     make && \
     make install

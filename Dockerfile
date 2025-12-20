@@ -1,8 +1,8 @@
-FROM debian:buster-slim
+FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instalar dependências (Debian Buster - Estável para Legacy)
+# Instalar dependências (Ubuntu 18.04 - Era nativa do Icecast-KH)
 RUN apt-get update && apt-get install -y \
     build-essential \
     pkg-config \
@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     util-linux \
     dos2unix \
     mime-support \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/icecast-kh

@@ -40,5 +40,5 @@ chown -R icecast:icecast /var/log/icecast-kh /etc/icecast-kh /usr/local/share/ic
 ln -sf /dev/stdout /var/log/icecast-kh/access.log
 ln -sf /dev/stderr /var/log/icecast-kh/error.log
 
-echo "Iniciando Icecast via runuser..."
-exec runuser -u icecast -- /usr/local/bin/icecast -c /etc/icecast-kh/icecast.xml
+echo "Iniciando Icecast (Root -> Drop Privileges)..."
+exec /usr/local/bin/icecast -c /etc/icecast-kh/icecast.xml

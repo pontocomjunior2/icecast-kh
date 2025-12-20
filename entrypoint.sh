@@ -37,9 +37,9 @@ mkdir -p /var/log/icecast-kh
 touch /var/log/icecast-kh/access.log /var/log/icecast-kh/error.log
 chown -R icecast:icecast /var/log/icecast-kh /etc/icecast-kh /usr/local/share/icecast
 
-# Mostrar os logs no console sem usar symlinks (evita SegFault)
-tail -f /var/log/icecast-kh/error.log /var/log/icecast-kh/access.log &
+echo "Iniciando stream de logs..."
+sleep 1
+tail -n 0 -F /var/log/icecast-kh/error.log /var/log/icecast-kh/access.log &
 
-echo "Iniciando Icecast (Root -> Drop Privileges)..."
-# O daemon=0 no XML garante que ele não feche o processo
-exec /usr/local/bin/icecast -c /etc/icecast-kh/icecast.xml
+echo "Iniciando Icecast (Verbose Mode)..."
+exec /usr/local/bin/icecast -v -c /etc/icecast-kh/icecast.xml

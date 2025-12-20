@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=C.UTF-8
 
 # Instalar dependências (Ubuntu 18.04 - Era nativa do Icecast-KH)
 RUN apt-get update && apt-get install -y \
@@ -25,10 +25,10 @@ WORKDIR /usr/src/icecast-kh
 COPY . .
 
 # Limpar, converter scripts e compilar
-# Usamos -fcommon para evitar problemas com GCC recente (correção do SegFault)
+# -fcommon e -O0 evitam erros de otimização/memória em códigos legacy
 RUN dos2unix configure GIT-VERSION-GEN autogen.sh && \
     chmod +x ./configure ./GIT-VERSION-GEN ./autogen.sh && \
-    ./configure --with-openssl CFLAGS="-fcommon" && \
+    ./configure --with-openssl CFLAGS="-fcommon -O0 -g" && \
     make clean && \
     make && \
     make install

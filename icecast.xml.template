@@ -55,4 +55,5 @@
             <group>icecast</group>
         </changeowner>
     </security>
+    <daemon>0</daemon>
 </icecast>

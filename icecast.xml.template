@@ -1,4 +1,5 @@
 <icecast>
+    <daemon>0</daemon>
     <location>${ICECAST_LOCATION}</location>
     <admin>${ICECAST_ADMIN_EMAIL}</admin>
 

@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     dos2unix \
     mime-support \
     ca-certificates \
+    net-tools \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/icecast-kh

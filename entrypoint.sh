@@ -52,4 +52,14 @@ echo "Iniciando monitoramento de logs e executando Icecast..."
 tail -F /var/log/icecast-kh/error.log /var/log/icecast-kh/access.log &
 
 echo "Iniciando Icecast..."
-exec /usr/local/bin/icecast -v -c /etc/icecast-kh/icecast.xml
+# Removido -v pois ele apenas imprime a versão e encerra o processo
+# O Icecast agora vai rodar em foreground devido ao daemon=0 no XML
+/usr/local/bin/icecast -c /etc/icecast-kh/icecast.xml &
+
+# Aguardar um pouco e verificar se abriu a porta
+sleep 3
+echo "--- Verificação de Portas ---"
+netstat -tulpn | grep icecast || echo "Aviso: Nenhuma porta aberta detectada ainda."
+
+# Manter o container vivo e logs fluindo
+wait

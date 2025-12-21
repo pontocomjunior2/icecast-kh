@@ -37,9 +37,9 @@ mkdir -p /var/log/icecast-kh
 touch /var/log/icecast-kh/access.log /var/log/icecast-kh/error.log
 chown -R icecast:icecast /var/log/icecast-kh /etc/icecast-kh /usr/local/share/icecast
 
-echo "Iniciando stream de logs..."
-sleep 1
-tail -n 0 -F /var/log/icecast-kh/error.log /var/log/icecast-kh/access.log &
+echo "Iniciando stream de logs (atraso de 2s para sincronizar)..."
+sleep 2
+tail -F /var/log/icecast-kh/error.log /var/log/icecast-kh/access.log &
 
 echo "Iniciando Icecast (Verbose Mode)..."
 exec /usr/local/bin/icecast -v -c /etc/icecast-kh/icecast.xml

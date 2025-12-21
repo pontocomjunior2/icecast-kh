@@ -32,14 +32,24 @@ echo "--- Conteúdo do XML Gerado ---"
 cat /etc/icecast-kh/icecast.xml
 echo "------------------------------"
 
-# Garantir permissões
+# Garantir permissões e limpar logs antigos para evitar confusão
+rm -f /var/log/icecast-kh/*.log
 mkdir -p /var/log/icecast-kh
 touch /var/log/icecast-kh/access.log /var/log/icecast-kh/error.log
 chown -R icecast:icecast /var/log/icecast-kh /etc/icecast-kh /usr/local/share/icecast
 
-echo "Iniciando stream de logs (atraso de 2s para sincronizar)..."
-sleep 2
+echo "Iniciando monitoramento de logs e executando Icecast..."
+
+# Loop simples para garantir que o tail não morra e para mostrar que o container está vivo
+(
+    while true; do
+        sleep 10
+        echo "[HEARTBEAT] Container ativo em $(date)" >> /var/log/icecast-kh/error.log
+    done
+) &
+
+# Tail -F segue o arquivo mesmo se ele for rotacionado ou recriado
 tail -F /var/log/icecast-kh/error.log /var/log/icecast-kh/access.log &
 
-echo "Iniciando Icecast (Verbose Mode)..."
+echo "Iniciando Icecast..."
 exec /usr/local/bin/icecast -v -c /etc/icecast-kh/icecast.xml

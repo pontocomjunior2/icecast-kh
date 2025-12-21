@@ -17,6 +17,4 @@ services:
       - ICECAST_WEB_PORT=8080
       - ICECAST_SOURCE_PORT=9000
       - ICECAST_LOG_LEVEL=4
-    volumes:
-      - ./logs:/var/log/icecast-kh
     restart: always

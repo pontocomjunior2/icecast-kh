@@ -14,7 +14,10 @@ services:
       - ICECAST_ADMIN_EMAIL=webmaster@localhost
       - ICECAST_CLIENTS=1000
       - ICECAST_SOURCES=100
-      - ICECAST_WEB_PORT=8080
+      - ICECAST_WEB_PORT=80
       - ICECAST_SOURCE_PORT=9000
       - ICECAST_LOG_LEVEL=4
+    ports:
+      - "80:80"
+      - "9000:9000"
     restart: always

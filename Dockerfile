@@ -48,8 +48,8 @@ RUN dos2unix /entrypoint.sh /etc/icecast-kh/icecast.xml.template && \
 # Ajustar permissões
 RUN chown -R icecast:icecast /var/log/icecast-kh /etc/icecast-kh /usr/local/share/icecast /entrypoint.sh
 
-# Expor portas padrão
-EXPOSE 8080 9000
+# Expor portas padrão (80 para Web, 9000 para Encoder)
+EXPOSE 80 9000
 
 ENTRYPOINT ["/entrypoint.sh"]
 

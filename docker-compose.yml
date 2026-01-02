@@ -5,10 +5,10 @@ services:
     build: .
     container_name: icecast-kh
     environment:
-      - ICECAST_SOURCE_PASSWORD=hackme
-      - ICECAST_RELAY_PASSWORD=hackme
-      - ICECAST_ADMIN_USER=admin
-      - ICECAST_ADMIN_PASSWORD=hackme
+      - ICECAST_SOURCE_PASSWORD
+      - ICECAST_RELAY_PASSWORD
+      - ICECAST_ADMIN_USER
+      - ICECAST_ADMIN_PASSWORD
       - ICECAST_HOSTNAME=localhost
       - ICECAST_LOCATION=Brazil
       - ICECAST_ADMIN_EMAIL=webmaster@localhost

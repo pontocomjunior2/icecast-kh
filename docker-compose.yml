@@ -18,6 +18,5 @@ services:
       - ICECAST_SOURCE_PORT=9000
       - ICECAST_LOG_LEVEL=4
     ports:
-      - "80:80"
       - "9000:9000"
     restart: always

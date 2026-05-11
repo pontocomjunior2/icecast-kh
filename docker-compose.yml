@@ -4,6 +4,12 @@ services:
   icecast:
     build: .
     container_name: icecast-kh
+    # Limita o log do Docker para não crescer infinitamente
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     environment:
       - ICECAST_SOURCE_PASSWORD
       - ICECAST_RELAY_PASSWORD
@@ -16,7 +22,8 @@ services:
       - ICECAST_SOURCES=100
       - ICECAST_WEB_PORT=80
       - ICECAST_SOURCE_PORT=9000
-      - ICECAST_LOG_LEVEL=4
+      # Reduzimos o log level (4 é muito detalhado, 1 ou 2 é o ideal para produção)
+      - ICECAST_LOG_LEVEL=2
     ports:
       - "9000:9000"
     restart: always
